@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원가입 | 회원 관리 시스템</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="container">
+    <div class="login-box">
+      <div class="logo-area">
+        <h1 class="site-title">회원가입</h1>
+        <p class="site-sub">새 계정을 만들어 주세요</p>
+      </div>
+
+      <div id="notice-msg" class="msg-box" style="display:none"></div>
+
+      <form action="register_submit.php" method="post">
+        <div class="field-group">
+          <label for="reg-id">아이디 <span style="font-size:0.78rem;color:#94a3b8">(3~50자)</span></label>
+          <input type="text" name="username" id="reg-id" class="text-input"
+            placeholder="아이디 입력" autocomplete="username" minlength="3" maxlength="50" required>
+        </div>
+        <div class="field-group">
+          <label for="reg-pw">비밀번호 <span style="font-size:0.78rem;color:#94a3b8">(4자 이상)</span></label>
+          <input type="password" name="password" id="reg-pw" class="text-input"
+            placeholder="비밀번호 입력" autocomplete="new-password" minlength="4" required>
+        </div>
+        <button type="submit" class="submit-btn">가입하기</button>
+      </form>
+
+      <p class="bottom-link">이미 계정이 있으신가요? <a href="login.html">로그인</a></p>
+    </div>
+  </main>
+
+  <script>
+    (function() {
+      var p = new URLSearchParams(location.search);
+      var box = document.getElementById('notice-msg');
+      var err = p.get('err');
+      if (err === 'dup') {
+        box.className = 'msg-box error-box';
+        box.textContent = '이미 사용 중인 아이디입니다.';
+        box.style.display = 'block';
+      } else if (err === 'validation') {
+        box.className = 'msg-box error-box';
+        box.textContent = '입력값을 다시 확인해 주세요.';
+        box.style.display = 'block';
+      } else if (p.get('ok') === '1') {
+        box.className = 'msg-box success-box';
+        box.textContent = '가입이 완료되었습니다! 로그인해 주세요.';
+        box.style.display = 'block';
+      }
+    })();
+  </script>
+</body>
+</html>

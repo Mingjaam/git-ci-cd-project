@@ -1,0 +1,39 @@
+version: "3.8"
+
+name: git-ci-cd-project
+
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    networks:
+      - ci-ci-net
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_NAME: epitec_auth
+      DB_USER: root
+      DB_PASS: "1234"
+
+  db:
+    image: mysql:8.0
+    container_name: db-server
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "1234"
+      MYSQL_DATABASE: epitec_auth
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./database.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - ci-ci-net
+
+volumes:
+  db-data:
+
+networks:
+  ci-ci-net:
